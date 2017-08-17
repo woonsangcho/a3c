@@ -59,7 +59,7 @@ class A3CFeedForwardNN(NeuralNetwork):
             self.sample_action = tf.one_hot(
                                     tf.squeeze(
                                         tf.multinomial(
-                                        self.action_logits - tf.reduce_max(self.action_logits, 1, keep_dims=True), 1)),
+                                        tf.nn.softmax(self.action_logits) - tf.reduce_max(tf.nn.softmax(self.action_logits), 1, keep_dims=True), 1)),
                                         self.env.action_space.n)
 
             self.value = tf.reshape(self.value, [-1])
